@@ -1,32 +1,39 @@
-import { useEffect, useState } from "react";
-import { StyleSheet, ActivityIndicator, FlatList, Text } from "react-native";
-import { getLatestGames } from "../lib/metacritic";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useContext, useEffect, useState } from "react";
+import { StyleSheet, ActivityIndicator, FlatList, Text, View, Dimensions } from "react-native";
+import { getCalendarEvents } from "../lib/calendar-events"
 import { AnimatedEventCard } from "./EventCard"
 import { Screen } from "./Screen";
+
+const screenWidth = Dimensions.get('window').width;
+const itemSpacing = 10;
+const numColumns = 2;
+const totalHorizontalPadding = itemSpacing * (numColumns - 1);
 
 export function Main(){
 
     const [ eventsCards, setEventsCards ] = useState([]);
-    const insets = useSafeAreaInsets();
+    //const insets = useSafeAreaInsets();
 
     useEffect(() => {
-        getLatestGames().then((cards) => {
-            setEventsCards(cards)
-        })
-    }, []);
+		getCalendarEvents().then((eventsCards) => {
+			setEventsCards(eventsCards)
+		})
+	}, [])
 
     return (
         <Screen>
             {eventsCards.length === 0 ? (
                 <ActivityIndicator color={"#fff"} size={"large"} />
-            ) : (
-                <FlatList 
+            ) : (                
+                <FlatList
+                    numColumns={1}
                     data={eventsCards}
-                    keyExtractor={(cards) => cards.slug}
-                    renderItem={({ item, index }) => (
-                        <AnimatedEventCard card={item} index={index} />
+                    keyExtractor={(card) => card.id}
+                    renderItem={({ item, index }) => (                        
+                        <AnimatedEventCard card={item} index={index.toString()} style={{flex: 1}} />      
                     )}
+                    //contentContainerStyle={styles.list}
+                    className="py-2 px-4"
                 />
             )}
         </Screen>
@@ -36,5 +43,19 @@ export function Main(){
 const styles = StyleSheet.create({
     text: {
         fontSize: 42,
+    },
+    gridItem: {
+        width: '40%', // Esto asegura que cada elemento ocupe el 48% del ancho (con márgenes)
+        marginBottom: 10,
+    },
+    columnWrapper: {
+        justifyContent: 'space-between',
+		//flex: 1,
+        // backgroundColor: '#fff',
+        // alignItems: 'center',
+        // justifyContent: 'center',
+	},
+    list: {
+        paddingHorizontal: itemSpacing / 2
     }
 })

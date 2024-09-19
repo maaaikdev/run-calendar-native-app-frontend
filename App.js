@@ -2,14 +2,14 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { Main } from "./components/Main"
+import { Main } from "./components/Main";
 
 export default function App() {
 	return (
 		<SafeAreaProvider>
-			<View style={styles.container}>
-				<StatusBar style="dark" />
-				<Main />
+			<View className='flex-[1] bg-white pt-8'>
+				<StatusBar style="auto" />
+				{/* <Main style={styles.container}/> */}
 			</View>
 		</SafeAreaProvider>
 	);
@@ -18,9 +18,8 @@ export default function App() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#000',
-		alignItems: 'center',
-		justifyContent: 'center',
-		paddingHorizontal: 12
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		alignItems: 'flex-start' 
 	},
 });

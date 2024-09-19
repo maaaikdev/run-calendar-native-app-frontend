@@ -2,7 +2,7 @@ import { Tabs } from "expo-router";
 import { HomeIcon, InfoIcon } from "../../components/Icons";
 
 export default function TabsLayout(){
-    return (
+    return (        
         <Tabs
             screenOptions={{
                 headerShown: false,
